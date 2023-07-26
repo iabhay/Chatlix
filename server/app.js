@@ -1,7 +1,9 @@
 const express = require('express');
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const app = express();
+const cors = require('cors');
+
+
 
 // Connection
 require('./chatlix-db/connection');
@@ -11,9 +13,12 @@ const Users = require('./models/Users');
 const Conversations = require('./models/Conversations');
 const Messages = require('./models/Messages');
 
-const port = process.env.PORT || 8000;
+const app = express();
 app.use(express.json());
-app.use(express.urlencoded({extended: false}))
+app.use(express.urlencoded({extended: false}));
+app.use(cors());
+
+const port = process.env.PORT || 8000;
 
 app.get('/', (req, res) =>{
     res.send('Welcome');
@@ -43,7 +48,7 @@ app.post('/api/register', async (req, res, next)=>{
             }
         }
     } catch (err){
-
+        console.log(err, 'error')
     }
 })
 
@@ -76,9 +81,8 @@ app.post('/api/login', async (req, res, next)=>{
                             $set: {token}
                         })
                         user.save();
-                        next();
-                    })
-                    res.status(200).json({user :{email:user.email, name:user.name, mobile:user.mobile}, token: user.token});
+                        res.status(200).json({user :{id: user._id, email:user.email, name:user.name, mobile:user.mobile}, token: token});
+                                        })
                 }
             }
         }
@@ -100,12 +104,13 @@ app.post('/api/conversation', async (req, res) =>{
     }
 })
 
-app.get('/api/conversation/:userId', async (req, res) =>{
+app.get('/api/conversations/:userId', async (req, res) =>{
     try{
         const userId = req.params.userId;
         const conversations = await Conversations.find({members: {$in : [userId]}});
         const conversationUserData = Promise.all(conversations.map(async (conversation)=>{
             const receiverId = conversation.members.find((member)=> member !== userId);
+            // const user = receiverId ? await Users.findById(receiverId) : null;
             const user = await Users.findById(receiverId);
             return {user : {email:user.email, mobile:user.mobile, name:user.name}, conversationId: conversation._id}
 
