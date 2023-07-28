@@ -19,7 +19,7 @@ const Form = ({
   const handleSubmit = async (e)=> {
     console.log(data)
     e.preventDefault();
-      const res = await fetch(`https://chatlix.onrender.com/api/${isSignInPage ? 'login' : 'register'}`, {
+      const res = await fetch(`/api/${isSignInPage ? 'login' : 'register'}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -34,7 +34,8 @@ const Form = ({
         if(resData.token){
           localStorage.setItem('user:token', resData.token);
           localStorage.setItem('user:details', JSON.stringify(resData.user));
-          navigate(`/${isSignInPage ? '/' : 'login'}`);
+          alert('REGISTRATION SUCCESS! \n Now Click on Sign IN');
+          navigate('/');
         }
       }
   }
