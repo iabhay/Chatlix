@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
+const dotenv = require("dotenv")
 
-const url = `mongodb+srv://chatlix_abhay:abhay1234@cluster0.4jdhfni.mongodb.net/?retryWrites=true&w=majority`;
+dotenv.config()
+const url = URL;
 
 mongoose.connect(url, {
     useNewUrlParser: true,
