@@ -224,7 +224,7 @@ app.get('/api/message/:conversationId', async (req, res)=> {
 app.get('/api/users/:userId', async (req, res)=>{
     try{
         const userId = req.params.userId;
-        const users = await Users.find({_id : {$ne: userId}}); //not equal to
+        const users = await Users.find({_id : {$ne: userId}});
         const usersData = Promise.all(users.map(async (user)=>{
             return {user: {email:user.email, mobile:user.mobile, name: user.name, receiverId: user._id}}
         }))
