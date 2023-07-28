@@ -13,7 +13,7 @@ const Dashboard = () => {
     const messageRef = useRef(null);
 
     useEffect(()=>{
-        setSocket(io('http://localhost:8080'))
+        setSocket(io('https://chatlix.onrender.com'))
     }, [])
 
     useEffect(()=>{
@@ -40,7 +40,7 @@ useEffect(()=>{
 )
 
     const fetchConversations = async()=>{
-        const res = await fetch(`http://localhost:8000/api/conversations/${loggedInUser?.id}`, {
+        const res = await fetch(`https://chatlix.onrender.com/api/conversations/${loggedInUser?.id}`, {
             method: 'GET',
             headers:{
                 'Content-Type': 'application/json'
@@ -54,7 +54,7 @@ useEffect(()=>{
 
 useEffect(()=>{
     const fetchUsers = async()=>{
-        const res = await fetch(`http://localhost:8000/api/users/${user?.id}`,{
+        const res = await fetch(`https://chatlix.onrender.com/api/users/${user?.id}`,{
             method:'GET',
             headers:{
                 'Content-Type' : 'application/json',
@@ -68,7 +68,7 @@ useEffect(()=>{
 
 
 const fetchMessages = async(conversationId, receiver)=>{
-    const res = await fetch(`http://localhost:8000/api/message/${conversationId}?senderId=${user?.id}&&receiverId=${receiver?.receiverId}`,{
+    const res = await fetch(`https://chatlix.onrender.com/api/message/${conversationId}?senderId=${user?.id}&&receiverId=${receiver?.receiverId}`,{
     method:'GET',
     headers:{
         'Content-Type': 'application/json',
@@ -86,7 +86,7 @@ const sendMessage = async(e)=>{
         message,
         conversationId: messages?.conversationId,
     })
-     const res = await fetch(`http://localhost:8000/api/message`,{
+     const res = await fetch(`https://chatlix.onrender.com/api/message`,{
         method:'POST',
         headers:{
             'Content-Type':'application/json'
