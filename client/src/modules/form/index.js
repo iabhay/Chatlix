@@ -34,7 +34,7 @@ const Form = ({
         if(resData.token){
           localStorage.setItem('user:token', resData.token);
           localStorage.setItem('user:details', JSON.stringify(resData.user));
-          navigate('/');
+          navigate(`/${isSignInPage ? '/' : 'login'}`);
         }
       }
   }
